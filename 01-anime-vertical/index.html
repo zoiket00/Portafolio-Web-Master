@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anime Vertical — Web-Master</title>
+<meta name="description" content="Catálogo de anime en tiempo real vía API de Jikan / MyAnimeList." />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          base: { 950: '#050507' },
+          indigo: { DEFAULT: '#6366f1', soft: '#818cf8' },
+        },
+        fontFamily: {
+          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html, body { background-color: #050507; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-3%, 4%) scale(1.06); }
+  }
+  .orb { animation: drift 20s ease-in-out infinite; }
+
+  .bento {
+    background-color: rgb(24 24 27 / 0.4);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgb(39 39 42 / 0.8);
+    border-radius: 1rem;
+    transition: all 300ms;
+  }
+  .bento:hover {
+    border-color: rgb(99 102 241 / 0.4);
+    box-shadow: inset 0 1px 24px rgba(255, 255, 255, 0.02);
+  }
+
+  .filter-btn {
+    color: rgb(161 161 170);
+    background-color: transparent;
+    border: 1px solid transparent;
+  }
+  .filter-btn:hover { color: #fff; border-color: rgb(39 39 42 / 0.8); }
+  .filter-btn.is-active {
+    color: #818cf8;
+    background-color: rgb(99 102 241 / 0.08);
+    border-color: rgb(99 102 241 / 0.3);
+  }
+
+  @keyframes pulse-skeleton {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+  }
+  .skeleton { animation: pulse-skeleton 1.4s ease-in-out infinite; background-color: rgb(39 39 42); }
+
+  ::selection { background: #6366f1; color: #fff; }
+  a:focus-visible, button:focus-visible { outline: 2px solid #818cf8; outline-offset: 3px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) { .orb, .skeleton { animation: none; } }
+</style>
+</head>
+
+<body class="text-zinc-100 antialiased relative overflow-x-hidden">
+
+  <div class="fixed inset-0 -z-10 pointer-events-none" aria-hidden="true">
+    <div class="orb absolute top-0 left-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[150px]"></div>
+    <div class="orb absolute bottom-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-[150px]" style="animation-delay: -10s"></div>
+  </div>
+
+  <header class="fixed top-0 inset-x-0 z-50 border-b border-zinc-800/60 bg-base-950/60 backdrop-blur-xl">
+    <nav class="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Navegación principal">
+      <a href="../00-portfolio-hub/index.html" class="group inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-all duration-300">
+        <span class="transition-transform duration-300 group-hover:-translate-x-0.5">←</span> dev.hub
+      </a>
+      <p class="font-mono text-xs uppercase tracking-wider text-indigo-soft">01 · anime-vertical</p>
+    </nav>
+  </header>
+
+  <main class="pt-32 pb-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+
+      <section class="mb-10">
+        <p class="inline-flex w-fit items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-indigo-soft mb-5 px-3 py-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/[0.06]">
+          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+          Jikan API · MyAnimeList
+        </p>
+        <h1 class="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight text-white">
+          Catálogo de
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">anime</span>
+          en vivo.
+        </h1>
+        <p class="mt-4 text-zinc-400 text-lg max-w-md">Datos reales, obtenidos de forma asíncrona en cada carga.</p>
+      </section>
+
+      <div class="flex flex-wrap items-center gap-2 mb-8 font-mono text-xs uppercase tracking-wider" role="tablist" aria-label="Filtrar catálogo">
+        <button type="button" data-filter="" role="tab" aria-selected="true" class="filter-btn is-active px-4 py-2 rounded-full transition-all duration-300">Top</button>
+        <button type="button" data-filter="airing" role="tab" aria-selected="false" class="filter-btn px-4 py-2 rounded-full transition-all duration-300">En emisión</button>
+        <button type="button" data-filter="upcoming" role="tab" aria-selected="false" class="filter-btn px-4 py-2 rounded-full transition-all duration-300">Próximos</button>
+        <button type="button" data-filter="bypopularity" role="tab" aria-selected="false" class="filter-btn px-4 py-2 rounded-full transition-all duration-300">Populares</button>
+        <button type="button" data-filter="favorite" role="tab" aria-selected="false" class="filter-btn px-4 py-2 rounded-full transition-all duration-300">Favoritos</button>
+      </div>
+
+      <div id="skeleton-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5" aria-hidden="true"></div>
+
+      <div id="error-state" class="hidden bento flex flex-col items-center text-center py-16 px-6">
+        <p class="font-mono text-[11px] uppercase tracking-wider text-zinc-500 mb-2">Error de conexión</p>
+        <p id="error-message" class="text-zinc-300 text-sm max-w-sm mb-6">No se pudo cargar el catálogo.</p>
+        <button id="retry-btn" type="button"
+          class="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-all duration-300">
+          Reintentar
+        </button>
+      </div>
+
+      <div id="anime-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5" role="list" aria-label="Resultados de anime"></div>
+
+    </div>
+  </main>
+
+  <script>
+    const API_BASE = 'https://api.jikan.moe/v4/top/anime';
+    const grid = document.getElementById('anime-grid');
+    const skeletonGrid = document.getElementById('skeleton-grid');
+    const errorState = document.getElementById('error-state');
+    const errorMessage = document.getElementById('error-message');
+    const retryBtn = document.getElementById('retry-btn');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const SKELETON_COUNT = 10;
+
+    let currentFilter = '';
+
+    function buildSkeletonCard() {
+      const card = document.createElement('div');
+      card.className = 'bento overflow-hidden';
+      card.innerHTML = `
+        <div class="skeleton w-full aspect-[2/3]"></div>
+        <div class="p-3 space-y-2">
+          <div class="skeleton h-3 w-4/5 rounded"></div>
+          <div class="skeleton h-3 w-2/5 rounded"></div>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderSkeletons() {
+      skeletonGrid.innerHTML = '';
+      skeletonGrid.classList.remove('hidden');
+      for (let i = 0; i < SKELETON_COUNT; i++) {
+        skeletonGrid.appendChild(buildSkeletonCard());
+      }
+      grid.classList.add('hidden');
+      errorState.classList.add('hidden');
+    }
+
+    function buildAnimeCard(anime) {
+      const card = document.createElement('a');
+      card.href = anime.url;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+      card.role = 'listitem';
+      card.className = 'bento group overflow-hidden block';
+
+      const score = anime.score ? anime.score.toFixed(2) : 'N/A';
+      const episodes = anime.episodes ? `${anime.episodes} eps` : anime.status;
+
+      card.innerHTML = `
+        <div class="relative overflow-hidden">
+          <img src="${anime.images.jpg.image_url}" alt="${anime.title}" loading="lazy"
+            class="w-full aspect-[2/3] object-cover transition-transform duration-300 group-hover:scale-105" />
+          <span class="absolute top-2 right-2 font-mono text-[10px] px-1.5 py-0.5 rounded-full bg-black/70 border border-indigo-500/30 text-indigo-soft">
+            ★ ${score}
+          </span>
+        </div>
+        <div class="p-3">
+          <h3 class="text-sm font-bold text-white leading-snug line-clamp-2">${anime.title}</h3>
+          <p class="font-mono text-[11px] text-zinc-500 mt-1">${episodes}</p>
+        </div>
+      `;
+      return card;
+    }
+
+    function renderAnime(list) {
+      grid.innerHTML = '';
+      list.forEach((anime) => grid.appendChild(buildAnimeCard(anime)));
+      skeletonGrid.classList.add('hidden');
+      errorState.classList.add('hidden');
+      grid.classList.remove('hidden');
+    }
+
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorState.classList.remove('hidden');
+      skeletonGrid.classList.add('hidden');
+      grid.classList.add('hidden');
+    }
+
+    async function fetchAnime(filter) {
+      renderSkeletons();
+      const url = filter ? `${API_BASE}?filter=${filter}&limit=15` : `${API_BASE}?limit=15`;
+
+      try {
+        const response = await fetch(url);
+
+        if (response.status === 429) {
+          showError('Límite de peticiones alcanzado en la API de Jikan. Espera unos segundos y reintenta.');
+          return;
+        }
+
+        if (!response.ok) {
+          showError(`La API respondió con un error (${response.status}).`);
+          return;
+        }
+
+        const payload = await response.json();
+        renderAnime(payload.data || []);
+      } catch (networkError) {
+        showError('No hay conexión con la API. Verifica tu red e intenta de nuevo.');
+      }
+    }
+
+    function setActiveButton(activeButton) {
+      filterButtons.forEach((button) => {
+        const isActive = button === activeButton;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-selected', String(isActive));
+      });
+    }
+
+    function initFilters() {
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          currentFilter = button.dataset.filter;
+          setActiveButton(button);
+          fetchAnime(currentFilter);
+        });
+      });
+    }
+
+    retryBtn.addEventListener('click', () => fetchAnime(currentFilter));
+
+    initFilters();
+    fetchAnime(currentFilter);
+  </script>
+
+</body>
+</html>
