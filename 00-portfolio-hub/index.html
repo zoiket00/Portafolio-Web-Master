@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio Hub — Ingeniería de Software</title>
+<meta name="description" content="Hub de desarrollo de software: proyectos, verticales y stack técnico." />
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          base: { 950: '#050507' },
+          indigo: { DEFAULT: '#6366f1', soft: '#818cf8' },
+        },
+        fontFamily: {
+          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html, body { background-color: #050507; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+  @keyframes blink {
+    0%, 45% { opacity: 1; }
+    50%, 95% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .caret { animation: blink 1s steps(1) infinite; }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-3%, 4%) scale(1.06); }
+  }
+  .orb { animation: drift 20s ease-in-out infinite; }
+
+  .bento {
+    background-color: rgb(24 24 27 / 0.4);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgb(39 39 42 / 0.8);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 300ms;
+  }
+  .bento:hover {
+    border-color: rgb(99 102 241 / 0.4);
+    box-shadow: inset 0 1px 24px rgba(255, 255, 255, 0.02);
+  }
+
+  .filter-btn {
+    color: rgb(161 161 170);
+    background-color: transparent;
+    border: 1px solid transparent;
+  }
+  .filter-btn:hover {
+    color: #fff;
+    border-color: rgb(39 39 42 / 0.8);
+  }
+  .filter-btn.is-active {
+    color: #818cf8;
+    background-color: rgb(99 102 241 / 0.08);
+    border-color: rgb(99 102 241 / 0.3);
+  }
+
+  #empty-state {
+    border-style: dashed;
+  }
+
+  ::selection { background: #6366f1; color: #fff; }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid #818cf8;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .caret, .orb { animation: none; }
+  }
+
+  .email-copy-tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+    white-space: nowrap;
+  }
+  .email-copy-tooltip.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .email-copy-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgb(24 24 27 / 0.95);
+  }
+</style>
+</head>
+
+<body class="text-zinc-100 antialiased relative overflow-x-hidden">
+
+  <div class="fixed inset-0 -z-10 pointer-events-none" aria-hidden="true">
+    <div class="orb absolute top-0 left-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[150px]"></div>
+    <div class="orb absolute bottom-0 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-[150px]" style="animation-delay: -10s"></div>
+  </div>
+
+  <header class="fixed top-0 inset-x-0 z-50 border-b border-zinc-800/60 bg-base-950/60 backdrop-blur-xl">
+    <nav class="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Navegación principal">
+      <a href="#top" class="font-bold text-lg tracking-tight">
+        <span class="text-white">Web</span><span class="text-indigo-soft">-Master</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-wider text-zinc-400">
+        <a href="#proyectos" class="hover:text-white transition-all duration-300">proyectos</a>
+        <a href="#stack" class="hover:text-white transition-all duration-300">stack</a>
+        <a href="#contacto" class="hover:text-white transition-all duration-300">contacto</a>
+      </div>
+
+      <a href="https://zoiket00.github.io/" target="_blank" rel="noopener noreferrer"
+        class="group inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-all duration-300"
+        aria-label="Ir al portafolio general multidisciplinario (se abre en otra pestaña)">
+        Portafolio general
+        <span class="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+      </a>
+    </nav>
+  </header>
+
+  <main id="top" class="pt-32 pb-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <section class="bento md:col-span-2 flex flex-col justify-center p-8 md:p-10" aria-label="Introducción">
+          <p class="inline-flex w-fit items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-indigo-soft mb-6 px-3 py-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/[0.06]">
+            <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+            Ingeniería de Software
+          </p>
+          <h1 class="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight text-white">
+            Construyo
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+              productos que escalan
+            </span>
+            de verdad.
+          </h1>
+          <p class="mt-6 text-zinc-400 text-lg leading-relaxed max-w-md">
+            Frontend, arquitectura y despliegue continuo. Un ecosistema modular,
+            versionado y en producción.
+          </p>
+
+          <div class="mt-9 flex flex-wrap items-center gap-4">
+            <a href="#proyectos"
+              class="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-medium px-5 py-3 rounded-lg shadow-[0_0_20px_rgba(99,102,241,0.2)] hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] transition-all duration-300 hover:-translate-y-0.5">
+              Ver proyectos
+            </a>
+            <a href="#contacto"
+              class="inline-flex items-center gap-2 border border-zinc-800 hover:border-indigo-400/50 bg-white/[0.02] hover:bg-white/[0.04] text-zinc-300 hover:text-white text-sm font-medium px-5 py-3 rounded-lg transition-all duration-300">
+              Contactar
+            </a>
+          </div>
+        </section>
+
+        <aside class="bento md:col-span-1 flex flex-col overflow-hidden" aria-label="Terminal de presentación">
+          <div class="flex items-center gap-2 pb-3 mb-3 border-b border-zinc-800/80">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></span>
+            <span class="ml-2 font-mono text-[11px] text-zinc-500">whoami.sh</span>
+          </div>
+          <div class="font-mono text-xs leading-relaxed">
+            <p class="text-zinc-500">$ whoami</p>
+            <p class="text-white mt-1">Ingeniero Frontend<br />Full-Stack</p>
+
+            <p class="text-zinc-500 mt-3">$ cat stack.json</p>
+            <p class="mt-1 text-white"><span class="text-indigo-soft">core</span>: React, TS</p>
+            <p class="text-white"><span class="text-indigo-soft">infra</span>: Vercel</p>
+            <p><span class="text-indigo-soft">status</span>: <span class="text-emerald-400">shipping</span></p>
+
+            <p class="text-zinc-500 mt-3">$ ./deploy<span class="caret text-indigo-soft"> ▍</span></p>
+          </div>
+        </aside>
+
+        <section id="proyectos" class="md:col-span-3 scroll-mt-24" aria-label="Proyectos por vertical">
+          <div class="flex flex-wrap items-center gap-2 mb-6 font-mono text-xs uppercase tracking-wider" role="tablist" aria-label="Filtrar proyectos por categoría">
+            <button type="button" data-filter="todos" role="tab" aria-selected="true" class="filter-btn is-active px-4 py-2 rounded-full transition-all duration-300">
+              Todos
+            </button>
+            <button type="button" data-filter="anime" role="tab" aria-selected="false" class="filter-btn px-4 py-2 rounded-full transition-all duration-300">
+              Anime
+            </button>
+            <button type="button" data-filter="blogs" role="tab" aria-selected="false" class="filter-btn px-4 py-2 rounded-full transition-all duration-300">
+              Blogs &amp; CMS
+            </button>
+            <button type="button" data-filter="negocios" role="tab" aria-selected="false" class="filter-btn px-4 py-2 rounded-full transition-all duration-300">
+              Negocios
+            </button>
+            <button type="button" data-filter="escolar" role="tab" aria-selected="false" class="filter-btn px-4 py-2 rounded-full transition-all duration-300">
+              Escolar
+            </button>
+          </div>
+
+          <div id="proyectos-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <a href="https://anime-vertical.vercel.app" target="_blank" rel="noopener noreferrer" data-category="anime"
+              class="project-card bento group relative overflow-hidden transition-opacity duration-300">
+              <div class="flex items-start justify-between">
+                <span class="font-mono text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-indigo-500/30 text-indigo-soft bg-indigo-500/10">
+                  en desarrollo
+                </span>
+                <span class="text-zinc-600 group-hover:text-indigo-soft transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+              </div>
+
+              <h3 class="text-xl font-bold text-white mt-6">Vertical 01 · Anime</h3>
+              <p class="text-zinc-400 text-sm mt-2.5 leading-relaxed max-w-sm">
+                Plataforma de streaming y catálogo. Foco en performance de video
+                y arquitectura de contenido.
+              </p>
+
+              <div class="mt-6 flex items-end gap-1.5 h-10" aria-hidden="true">
+                <span class="w-2 rounded-full bg-indigo-500/30 group-hover:bg-indigo-500/60 transition-all duration-300" style="height: 40%"></span>
+                <span class="w-2 rounded-full bg-indigo-500/40 group-hover:bg-indigo-500/70 transition-all duration-300" style="height: 65%"></span>
+                <span class="w-2 rounded-full bg-indigo-500/50 group-hover:bg-indigo-500/80 transition-all duration-300" style="height: 50%"></span>
+                <span class="w-2 rounded-full bg-indigo-400 group-hover:bg-indigo-300 transition-all duration-300" style="height: 95%"></span>
+                <span class="w-2 rounded-full bg-indigo-500/40 group-hover:bg-indigo-500/70 transition-all duration-300" style="height: 55%"></span>
+                <span class="ml-2 font-mono text-[11px] text-zinc-500 self-center">LCP 0.9s</span>
+              </div>
+
+              <div class="flex items-center gap-2 mt-6 font-mono text-[11px] text-zinc-500">
+                <span class="w-2 h-2 rounded-full bg-indigo-soft"></span>
+                01-anime-vertical
+              </div>
+            </a>
+
+            <a href="https://blogs-vertical.vercel.app" target="_blank" rel="noopener noreferrer" data-category="blogs"
+              class="project-card bento group relative overflow-hidden transition-opacity duration-300">
+              <div class="flex items-start justify-between">
+                <span class="font-mono text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-indigo-500/30 text-indigo-soft bg-indigo-500/10">
+                  en desarrollo
+                </span>
+                <span class="text-zinc-600 group-hover:text-indigo-soft transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+              </div>
+
+              <h3 class="text-xl font-bold text-white mt-6">Vertical 02 · Blogs</h3>
+              <p class="text-zinc-400 text-sm mt-2.5 leading-relaxed max-w-sm">
+                Sistema de blogs y CMS headless. Optimizado para SEO técnico y
+                velocidad de publicación.
+              </p>
+
+              <div class="mt-6 flex items-center gap-3" aria-hidden="true">
+                <svg viewBox="0 0 36 36" class="w-10 h-10 -rotate-90">
+                  <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgb(39 39 42)" stroke-width="3"/>
+                  <circle cx="18" cy="18" r="15.5" fill="none" stroke="#818cf8" stroke-width="3" stroke-linecap="round"
+                    class="group-hover:stroke-indigo-300 transition-all duration-300" style="stroke-dasharray: 97.4; stroke-dashoffset: 6"/>
+                </svg>
+                <span class="font-mono text-[11px] text-zinc-500">SEO score 94/100</span>
+              </div>
+
+              <div class="flex items-center gap-2 mt-6 font-mono text-[11px] text-zinc-500">
+                <span class="w-2 h-2 rounded-full bg-indigo-soft"></span>
+                02-blogs-vertical
+              </div>
+            </a>
+
+            <a href="https://negocios-vertical.vercel.app" target="_blank" rel="noopener noreferrer" data-category="negocios"
+              class="project-card bento group relative overflow-hidden transition-opacity duration-300">
+              <div class="flex items-start justify-between">
+                <span class="font-mono text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-indigo-500/30 text-indigo-soft bg-indigo-500/10">
+                  próximamente
+                </span>
+                <span class="text-zinc-600 group-hover:text-indigo-soft transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+              </div>
+
+              <h3 class="text-xl font-bold text-white mt-6">Vertical 03 · Negocios</h3>
+              <p class="text-zinc-400 text-sm mt-2.5 leading-relaxed max-w-sm">
+                SaaS landings y UIs Fintech. Foco en conversión y confianza
+                visual para productos financieros.
+              </p>
+
+              <div class="mt-6" aria-hidden="true">
+                <svg viewBox="0 0 160 40" class="w-full h-10" preserveAspectRatio="none">
+                  <polyline points="0,32 25,28 50,30 75,18 100,20 125,8 160,4" fill="none" stroke="#818cf8" stroke-width="2"
+                    class="group-hover:stroke-indigo-300 transition-all duration-300" />
+                  <polyline points="0,32 25,28 50,30 75,18 100,20 125,8 160,4 160,40 0,40" fill="url(#conv-gradient)" stroke="none" opacity="0.25" />
+                  <defs>
+                    <linearGradient id="conv-gradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#818cf8" />
+                      <stop offset="100%" stop-color="#818cf8" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span class="font-mono text-[11px] text-zinc-500">Conversión +12% MoM</span>
+              </div>
+
+              <div class="flex items-center gap-2 mt-6 font-mono text-[11px] text-zinc-500">
+                <span class="w-2 h-2 rounded-full bg-indigo-soft"></span>
+                03-negocios-vertical
+              </div>
+            </a>
+
+            <a href="https://escolar-vertical.vercel.app" target="_blank" rel="noopener noreferrer" data-category="escolar"
+              class="project-card bento group relative overflow-hidden transition-opacity duration-300">
+              <div class="flex items-start justify-between">
+                <span class="font-mono text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-indigo-500/30 text-indigo-soft bg-indigo-500/10">
+                  próximamente
+                </span>
+                <span class="text-zinc-600 group-hover:text-indigo-soft transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+              </div>
+
+              <h3 class="text-xl font-bold text-white mt-6">Vertical 04 · Escolar</h3>
+              <p class="text-zinc-400 text-sm mt-2.5 leading-relaxed max-w-sm">
+                Plataformas E-learning. Foco en progreso del estudiante y
+                claridad pedagógica en la interfaz.
+              </p>
+
+              <div class="mt-6" aria-hidden="true">
+                <div class="flex items-center justify-between font-mono text-[11px] text-zinc-500 mb-2">
+                  <span>Lección 7 / 10</span>
+                  <span class="text-indigo-soft">70%</span>
+                </div>
+                <div class="h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
+                  <div class="h-full w-[70%] rounded-full bg-gradient-to-r from-indigo-500 to-purple-400 group-hover:from-indigo-400 group-hover:to-purple-300 transition-all duration-300"></div>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 mt-6 font-mono text-[11px] text-zinc-500">
+                <span class="w-2 h-2 rounded-full bg-indigo-soft"></span>
+                04-escolar-vertical
+              </div>
+            </a>
+
+          </div>
+
+          <div id="empty-state" class="hidden opacity-0 transition-opacity duration-300 bento mt-6 flex flex-col items-center justify-center text-center py-14 px-6">
+            <div class="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center mb-4" aria-hidden="true">
+              <span class="font-mono text-indigo-soft text-sm">···</span>
+            </div>
+            <p class="font-mono text-[11px] uppercase tracking-wider text-zinc-500 mb-2">Vertical en preparación</p>
+            <p class="text-zinc-300 text-sm max-w-xs">
+              Próximamente más proyectos de esta vertical. El repositorio está
+              reservado y entra en el pipeline de CI/CD apenas se publique.
+            </p>
+          </div>
+        </section>
+
+        <section id="stack" class="bento md:col-span-3 scroll-mt-24" aria-label="Stack técnico">
+          <p class="font-mono text-xs uppercase tracking-[0.25em] text-indigo-soft mb-5">Herramientas</p>
+          <div class="flex flex-wrap gap-3 font-mono text-sm">
+            <span class="px-4 py-2.5 rounded-xl bg-zinc-900/60 border border-zinc-800 text-zinc-300 hover:border-indigo-500/40 hover:text-white hover:-translate-y-0.5 transition-all duration-300">React</span>
+            <span class="px-4 py-2.5 rounded-xl bg-zinc-900/60 border border-zinc-800 text-zinc-300 hover:border-indigo-500/40 hover:text-white hover:-translate-y-0.5 transition-all duration-300">TypeScript</span>
+            <span class="px-4 py-2.5 rounded-xl bg-zinc-900/60 border border-zinc-800 text-zinc-300 hover:border-indigo-500/40 hover:text-white hover:-translate-y-0.5 transition-all duration-300">Tailwind CSS</span>
+            <span class="px-4 py-2.5 rounded-xl bg-zinc-900/60 border border-zinc-800 text-zinc-300 hover:border-indigo-500/40 hover:text-white hover:-translate-y-0.5 transition-all duration-300">GitHub Actions</span>
+            <span class="px-4 py-2.5 rounded-xl bg-zinc-900/60 border border-zinc-800 text-zinc-300 hover:border-indigo-500/40 hover:text-white hover:-translate-y-0.5 transition-all duration-300">Vercel</span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <footer id="contacto" class="relative border-t border-zinc-800/60 px-6 lg:px-8 py-14 scroll-mt-24">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <div>
+       <p class="font-bold text-white">Web<span class="text-indigo-soft">-Master</span></p>
+       <p class="text-zinc-500 text-sm mt-2 font-mono">
+          © 2026 · Hecho con <span class="text-indigo-soft font-bold">&lt;/&gt;</span> y mucho café. </p>
+
+      </div>
+
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-3 font-mono text-xs uppercase tracking-wider text-zinc-400">
+        <a href="#proyectos" class="hover:text-white transition-all duration-300">proyectos</a>
+
+        <button
+          type="button"
+          id="email-copy-btn"
+          data-email="luisdavidibarraalmario@gmail.com"
+          class="relative inline-flex items-center gap-1.5 hover:text-white transition-all duration-300"
+          aria-describedby="email-copy-status"
+        >
+          <svg id="email-icon-copy" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
+          <svg id="email-icon-check" class="w-3.5 h-3.5 hidden text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+          <span id="email-copy-label">email</span>
+
+          <span id="email-copy-tooltip" class="email-copy-tooltip font-mono text-[11px] normal-case tracking-normal text-emerald-400 bg-zinc-900/95 border border-zinc-800 rounded-md px-2.5 py-1.5">
+            $ email copiado ✓
+          </span>
+        </button>
+        <span id="email-copy-status" class="sr-only" role="status" aria-live="polite"></span>
+
+        <a href="https://github.com/zoiket00" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-all duration-300">github</a>
+        <a href="https://zoiket00.github.io/" target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-indigo-soft hover:text-white transition-all duration-300">
+          portafolio general ↗
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    const emptyState = document.getElementById('empty-state');
+    const TRANSITION_DURATION = 300;
+
+    function revealElement(element) {
+      element.classList.remove('hidden');
+      void element.offsetWidth;
+      element.classList.remove('opacity-0');
+    }
+
+    function concealElement(element) {
+      element.classList.add('opacity-0');
+      window.setTimeout(() => {
+        if (element.classList.contains('opacity-0')) {
+          element.classList.add('hidden');
+        }
+      }, TRANSITION_DURATION);
+    }
+
+    function setActiveButton(activeButton) {
+      filterButtons.forEach((button) => {
+        const isActive = button === activeButton;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-selected', String(isActive));
+      });
+    }
+
+    function filterProjects(category) {
+      let visibleCount = 0;
+
+      projectCards.forEach((card) => {
+        const matches = category === 'todos' || card.dataset.category === category;
+        if (matches) {
+          visibleCount += 1;
+          revealElement(card);
+        } else {
+          concealElement(card);
+        }
+      });
+
+      visibleCount === 0 ? revealElement(emptyState) : concealElement(emptyState);
+    }
+
+    function initFilters() {
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          setActiveButton(button);
+          filterProjects(button.dataset.filter);
+        });
+      });
+    }
+
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+
+      const fallbackInput = document.createElement('textarea');
+      fallbackInput.value = text;
+      fallbackInput.style.position = 'fixed';
+      fallbackInput.style.opacity = '0';
+      document.body.appendChild(fallbackInput);
+      fallbackInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(fallbackInput);
+    }
+
+    function initEmailCopy() {
+      const button = document.getElementById('email-copy-btn');
+      if (!button) return;
+
+      const email = button.dataset.email;
+      const label = document.getElementById('email-copy-label');
+      const tooltip = document.getElementById('email-copy-tooltip');
+      const iconCopy = document.getElementById('email-icon-copy');
+      const iconCheck = document.getElementById('email-icon-check');
+      const statusRegion = document.getElementById('email-copy-status');
+      let resetTimeoutId;
+      let isCopying = false;
+
+      button.addEventListener('click', async () => {
+        if (isCopying) return;
+        isCopying = true;
+
+        await copyToClipboard(email);
+
+        label.textContent = 'copiado';
+        iconCopy.classList.add('hidden');
+        iconCheck.classList.remove('hidden');
+        tooltip.classList.add('is-visible');
+        statusRegion.textContent = 'Correo copiado al portapapeles';
+
+        clearTimeout(resetTimeoutId);
+        resetTimeoutId = setTimeout(() => {
+          label.textContent = 'email';
+          iconCopy.classList.remove('hidden');
+          iconCheck.classList.add('hidden');
+          tooltip.classList.remove('is-visible');
+          isCopying = false;
+        }, 2200);
+      });
+    }
+
+    initFilters();
+    initEmailCopy();
+  </script>
+
+</body>
+</html>
