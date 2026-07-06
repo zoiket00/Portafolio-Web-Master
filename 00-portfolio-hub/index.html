@@ -6,29 +6,13 @@
 <title>Portfolio Hub — Ingeniería de Software</title>
 <meta name="description" content="Hub de desarrollo de software: proyectos, verticales y stack técnico." />
 
-<script src="https://cdn.tailwindcss.com"></script>
+
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: {
-          base: { 950: '#050507' },
-          indigo: { DEFAULT: '#6366f1', soft: '#818cf8' },
-        },
-        fontFamily: {
-          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          mono: ['"JetBrains Mono"', 'monospace'],
-        },
-      },
-    },
-  };
-</script>
+<link rel="stylesheet" href="./output.css">
 
 <style>
   html, body { background-color: #050507; }
@@ -220,7 +204,7 @@
 
           <div id="proyectos-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <a href="https://anime-vertical.vercel.app" target="_blank" rel="noopener noreferrer" data-category="anime"
+            <a href="./proyectos/anime.html" data-category="anime"
               class="project-card bento group relative overflow-hidden transition-opacity duration-300">
               <div class="flex items-start justify-between">
                 <span class="font-mono text-[11px] uppercase tracking-wider px-2.5 py-1 rounded-full border border-indigo-500/30 text-indigo-soft bg-indigo-500/10">

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vertical 01 · Anime — Web-Master</title>
+<meta name="description" content="Catálogo de anime en vivo consumiendo la API de Jikan (MyAnimeList)." />
+<link rel="stylesheet" href="../output.css">
+</head>
+
+<body class="text-zinc-100 antialiased relative overflow-x-hidden" style="background-color:#050507">
+
+  <header class="fixed top-0 inset-x-0 z-50 border-b border-zinc-800/60 bg-base-950/60 backdrop-blur-xl">
+    <nav class="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="../index.html" class="group inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-all duration-300">
+        <span class="transition-transform duration-300 group-hover:-translate-x-0.5">←</span> Web-Master
+      </a>
+      <p class="font-mono text-xs uppercase tracking-wider text-indigo-soft">ficha de proyecto</p>
+    </nav>
+  </header>
+
+  <main class="pt-32 pb-24 px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+
+      <p class="inline-flex w-fit items-center gap-2 font-mono text-xs uppercase tracking-[0.25em] text-indigo-soft mb-6 px-3 py-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/[0.06]">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+        Vertical 01 · Anime
+      </p>
+
+      <h1 class="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight text-white max-w-2xl">
+        Catálogo de anime en vivo, con datos reales.
+      </h1>
+
+      <p class="mt-6 text-zinc-400 text-lg leading-relaxed max-w-xl">
+        Plataforma que consume la API pública de Jikan (MyAnimeList) para mostrar
+        rankings en tiempo real. Incluye estados de carga (skeletons), manejo de
+        error para límite de peticiones (429) con reintento, y filtros dinámicos
+        por categoría (en emisión, próximos, populares, favoritos).
+      </p>
+
+      <div class="flex flex-wrap gap-2 mt-8">
+        <span class="font-mono text-xs px-3 py-1.5 rounded-full border border-zinc-800 text-zinc-300">JavaScript</span>
+        <span class="font-mono text-xs px-3 py-1.5 rounded-full border border-zinc-800 text-zinc-300">Tailwind CSS</span>
+        <span class="font-mono text-xs px-3 py-1.5 rounded-full border border-zinc-800 text-zinc-300">Jikan API</span>
+        <span class="font-mono text-xs px-3 py-1.5 rounded-full border border-zinc-800 text-zinc-300">Vercel</span>
+      </div>
+
+      <div class="bento mt-10 max-w-3xl aspect-video flex items-center justify-center">
+        <p class="font-mono text-xs text-zinc-500">Captura del proyecto (pendiente)</p>
+      </div>
+
+      <a href="anime-webmaster.vercel.app" target="_blank" rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-medium px-5 py-3 rounded-lg mt-10 shadow-[0_0_20px_rgba(99,102,241,0.2)] hover:shadow-[0_0_30px_rgba(99,102,241,0.35)] transition-all duration-300 hover:-translate-y-0.5">
+        Visitar proyecto en vivo ↗
+      </a>
+
+    </div>
+  </main>
+
+</body>
+</html>
