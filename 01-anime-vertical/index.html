@@ -21,7 +21,7 @@
       extend: {
         colors: {
           base: { 950: '#050507' },
-          indigo: { DEFAULT: '#6366f1', soft: '#818cf8' },
+          indigo: { DEFAULT: '#39ff14', soft: '#7dffa1', 400: '#7dffa1', 500: '#39ff14' },
         },
         fontFamily: {
           sans: ['"Plus Jakarta Sans"', 'sans-serif'],
@@ -51,7 +51,7 @@
     transition: all 300ms;
   }
   .bento:hover {
-    border-color: rgb(99 102 241 / 0.4);
+    border-color: rgb(57 255 20 / 0.4);
     box-shadow: inset 0 1px 24px rgba(255, 255, 255, 0.02);
   }
 
@@ -62,9 +62,9 @@
   }
   .filter-btn:hover { color: #fff; border-color: rgb(39 39 42 / 0.8); }
   .filter-btn.is-active {
-    color: #818cf8;
-    background-color: rgb(99 102 241 / 0.08);
-    border-color: rgb(99 102 241 / 0.3);
+    color: #7dffa1;
+    background-color: rgb(57 255 20 / 0.08);
+    border-color: rgb(57 255 20 / 0.3);
   }
 
   @keyframes pulse-skeleton {
@@ -73,8 +73,8 @@
   }
   .skeleton { animation: pulse-skeleton 1.4s ease-in-out infinite; background-color: rgb(39 39 42); }
 
-  ::selection { background: #6366f1; color: #fff; }
-  a:focus-visible, button:focus-visible { outline: 2px solid #818cf8; outline-offset: 3px; border-radius: 4px; }
+  ::selection { background: #39ff14; color: #08120a; }
+  a:focus-visible, button:focus-visible { outline: 2px solid #7dffa1; outline-offset: 3px; border-radius: 4px; }
   @media (prefers-reduced-motion: reduce) { .orb, .skeleton { animation: none; } }
 </style>
 </head>
@@ -105,7 +105,7 @@
         </p>
         <h1 class="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight text-white">
           Catálogo de
-          <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">anime</span>
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-lime-300 via-green-400 to-emerald-400">anime</span>
           en vivo.
         </h1>
         <p class="mt-4 text-zinc-400 text-lg max-w-md">Datos reales, obtenidos de forma asíncrona en cada carga.</p>
